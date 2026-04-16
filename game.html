@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>潮間帶探險遊戲 | 金門潮間帶生態導覽</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* 針對遊戲頁面的專屬美化與互動樣式 */
+    .game-main-container {
+        max-width: 800px; /* 縮窄寬度，讓答題更集中 */
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    /* 遊戲狀態區 (分數與進度) */
+    .game-status-bar {
+        background: white;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: var(--shadow);
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 90px; /* 鎖定在導航列下方 */
+        z-index: 100;
+        border: 2px solid var(--primary-blue);
+    }
+
+    .status-item {
+        font-size: 1.1em;
+        font-weight: bold;
+        color: var(--dark-blue);
+    }
+
+    .status-item span {
+        color: var(--primary-blue);
+        font-size: 1.3em;
+        margin: 0 5px;
+    }
+
+    /* 題目卡片美化 */
+    .quiz-question-card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        margin-bottom: 25px;
+        text-align: left;
+        transition: 0.3s;
+        border: 1px solid #eee;
+        position: relative;
+    }
+
+    .quiz-question-card h3 {
+        color: var(--dark-blue);
+        font-size: 1.3em;
+        margin: 0 0 20px 0;
+        line-height: 1.5;
+    }
+
+    /* 選項按鈕化美化 */
+    .option-label {
+        display: block;
+        background: #f8fbff;
+        padding: 15px 20px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px solid #e1f0ff;
+        position: relative;
+        font-weight: 500;
+    }
+
+    .option-label:hover {
+        background: #eef7ff;
+        border-color: var(--primary-blue);
+        transform: translateX(5px);
+    }
+
+    /* 隱藏原生 Radio */
+    .option-label input[type="radio"] {
+        display: none;
+    }
+
+    /* --- 即時回饋樣式 --- */
+    
+    /* 答題後鎖定所有選項 */
+    .quiz-question-card.answered .option-label {
+        pointer-events: none; /* 防止重複點擊 */
+        opacity: 0.7;
+    }
+
+    /* 正確答案樣式 (綠色) */
+    .quiz-question-card.answered .option-label.correct {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+        opacity: 1; /* 保持明亮 */
+        font-weight: bold;
+    }
+    
+    /* 正確答案後方加入勾勾 */
+    .quiz-question-card.answered .option-label.correct::after {
+        content: '\f00c'; /* FontAwesome Check */
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 20px;
+        color: #28a745;
+    }
+
+    /* 錯誤答案樣式 (紅色) */
+    .quiz-question-card.answered .option-label.wrong {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+        opacity: 1;
+    }
+
+    /* 錯誤答案後方加入叉叉 */
+    .quiz-question-card.answered .option-label.wrong::after {
+        content: '\f00d'; /* FontAwesome Mark */
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 20px;
+        color: #dc3545;
+    }
+
+    /* 提交按鈕美化 */
+    #submitQuiz {
+        background: var(--primary-blue);
+        color: white;
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: 0.3s;
+        box-shadow: 0 5px 15px rgba(0, 119, 182, 0.3);
+        margin: 30px 0;
+    }
+
+    #submitQuiz:hover {
+        background: var(--dark-blue);
+        transform: scale(1.05);
+    }
+
+    /* 重新開始按鈕 */
+    #restartGame {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        font-size: 1em;
+        border-radius: 50px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    /* 結算畫面美化 */
+    .quiz-result-card {
+        background: var(--white);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        border: 4px solid var(--accent-orange);
+        text-align: center;
+        margin-top: 30px;
+        animation: slideInUp 0.5s ease;
+    }
+
+    .level-icon {
+        font-size: 4em;
+        color: var(--accent-orange);
+        margin-bottom: 20px;
+        display: block;
+    }
+    
+    #levelDisplay {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: var(--dark-blue);
+        margin: 15px 0;
+    }
+
+    @keyframes slideInUp {
+        from { transform: translateY(50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .hidden { display: none !important; }
+
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="header-title-container">
+        <img src="logo_nqu.png" alt="金門大學Logo" class="site-logo">
+        <h1>金門潮間帶生態導覽</h1>
+    </div>
+    <nav>
+      <a href="index.html"><i class="fas fa-home"></i> 首頁</a>
+      <a href="intro.html"><i class="fas fa-book-open"></i> 潮間帶介紹</a>
+      <a href="bio.html"><i class="fas fa-fish"></i> 生物圖鑑</a>
+      <a href="guide.html"><i class="fas fa-route"></i> 導覽流程</a>
+      <a href="game.html" class="active"><i class="fas fa-gamepad"></i> 探險遊戲</a>
+      <a href="conservation.html"><i class="fas fa-leaf"></i> 環境保育</a>
+      <a href="about.html"><i class="fas fa-users"></i> 關於我們</a>
+    </nav>
+  </header>
+
+  <main class="game-main-container">
+    <section class="hero-intro" style="text-align: center; margin-top: 40px; margin-bottom: 30px;">
+      <h2><i class="fas fa-trophy"></i> 潮間帶知識大挑戰</h2>
+      <p>
+        答題後將<span style="color:#e63946; font-weight:bold;">立刻得知對錯</span>！<br>
+        完成所有任務，查看你的「潮間帶探險家等級」！
+      </p>
+    </section>
+
+    <div class="game-status-bar">
+        <div class="status-item"><i class="fas fa-tasks"></i> 進度: <span id="progressDisplay">0 / 5</span></div>
+        <div class="status-item"><i class="fas fa-star"></i> 當前分數: <span id="currentScoreDisplay">0</span></div>
+    </div>
+
+    <form id="quizForm" class="quiz-form">
+      
+      <div class="quiz-question-card" data-q="q1">
+        <h3>1. 哪種生物會隨著成長尋找更大的貝殼作為保護？</h3>
+        <label class="option-label"><input type="radio" name="q1" value="A"> A. 石鱉</label>
+        <label class="option-label"><input type="radio" name="q1" value="B"> B. 帽貝</label>
+        <label class="option-label" data-cor="true"><input type="radio" name="q1" value="C"> C. 寄居蟹</label>
+        <label class="option-label"><input type="radio" name="q1" value="D"> D. 招潮蟹</label>
+      </div>
+
+      <div class="quiz-question-card" data-q="q2">
+        <h3>2. 金門潮間帶中最常見的「初級生產者」是什麼？</h3>
+        <label class="option-label"><input type="radio" name="q2" value="A"> A. 招潮蟹</label>
+        <label class="option-label" data-cor="true"><input type="radio" name="q2" value="B"> B. 海藻</label>
+        <label class="option-label"><input type="radio" name="q2" value="C"> C. 海星</label>
+        <label class="option-label"><input type="radio" name="q2" value="D"> D. 彈塗魚</label>
+      </div>
+
+      <div class="quiz-question-card" data-q="q3">
+        <h3>3. 哪個潮間帶地點以「退潮可步行登島」聞名？</h3>
+        <label class="option-label"><input type="radio" name="q3" value="A"> A. 后湖沙灘</label>
+        <label class="option-label"><input type="radio" name="q3" value="B"> B. 翟山岩礁</label>
+        <label class="option-label"><input type="radio" name="q3" value="C"> C. 珠山海岸</label>
+        <label class="option-label" data-cor="true"><input type="radio" name="q3" value="D"> D. 建功嶼</label>
+      </div>
+      
+      <div class="quiz-question-card" data-q="q4">
+        <h3>4. 石鱉的身體特徵之一是有幾塊殼板附著在岩石表面？</h3>
+        <label class="option-label"><input type="radio" name="q4" value="A"> A. 五塊</label>
+        <label class="option-label" data-cor="true"><input type="radio" name="q4" value="B"> B. 八塊</label>
+        <label class="option-label"><input type="radio" name="q4" value="C"> C. 十二塊</label>
+        <label class="option-label"><input type="radio" name="q4" value="D"> D. 沒有殼板</label>
+      </div>
+
+      <div class="quiz-question-card" data-q="q5">
+        <h3>5. 關於導覽流程，在前往潮間帶探險前，最先要確認的事情是什麼？</h3>
+        <label class="option-label" data-cor="true"><input type="radio" name="q5" value="A"> A. ⏰ 查詢潮汐時段</label>
+        <label class="option-label"><input type="radio" name="q5" value="B"> B. 🎒 準備挖沙工具</label>
+        <label class="option-label"><input type="radio" name="q5" value="C"> C. 📍 購買在地名產</label>
+        <label class="option-label"><input type="radio" name="q5" value="D"> D. 👣 輕腳慢行守則</label>
+      </div>
+
+      <div style="text-align: center;">
+        <button type="submit" id="submitQuiz">提交答案並結算等級</button>
+      </div>
+    </form>
+
+    <div id="quizResult" class="quiz-result-card hidden">
+      <div class="level-icon"><i class="fas fa-user-astronaut"></i></div>
+      <h3><i class="fas fa-flag-checkered"></i> 探險完成！</h3>
+      <p id="scoreDisplay" style="font-size: 1.2em;"></p>
+      <p id="levelDisplay"></p>
+      <button id="restartGame"><i class="fas fa-redo"></i> 重新挑戰</button>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content" style="text-align: center; color: white; padding: 20px;">
+        <p>© 2025 金門潮間帶生態導覽 | 製作：陳宏傑、李昱欣</p>
+        <p>國立金門大學 第三組 製作</p>
+    </div>
+  </footer>
+
+  <div id="bioDetail" class="bio-detail hidden">
+    <span id="closeDetail" class="close-btn">&times;</span>
+    <h3 id="bioTitle"></h3>
+    <img id="bioImg" src="" alt="">
+    <p id="bioDesc"></p>
+  </div>
+  <script src="script.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const quizForm = document.getElementById('quizForm');
+        const questionCards = document.querySelectorAll('.quiz-question-card');
+        const progressDisplay = document.getElementById('progressDisplay');
+        const currentScoreDisplay = document.getElementById('currentScoreDisplay');
+        const submitBtn = document.getElementById('submitQuiz');
+        const resultCard = document.getElementById('quizResult');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const levelDisplay = document.getElementById('levelDisplay');
+        const restartBtn = document.getElementById('restartGame');
+        
+        let score = 0;
+        let answeredCount = 0;
+        const totalQuestions = questionCards.length;
+
+        // --- 功能 1: 即時對錯回饋 ---
+        questionCards.forEach(card => {
+            const options = card.querySelectorAll('.option-label');
+            
+            options.forEach(option => {
+                option.addEventListener('click', function() {
+                    // 如果這題已經答過，就不做任何事
+                    if (card.classList.contains('answered')) return;
+
+                    const isCorrect = this.dataset.cor === "true";
+                    
+                    // 標記這題已解答，鎖定樣式
+                    card.classList.add('answered');
+                    answeredCount++;
+                    
+                    if (isCorrect) {
+                        score += 20; // 每題 20 分
+                        this.classList.add('correct'); // 選項變綠
+                    } else {
+                        this.classList.add('wrong'); // 選項變紅
+                        // 並且幫忙找出正確答案並標示為綠色，給予回饋
+                        card.querySelector('.option-label[data-cor="true"]').classList.add('correct');
+                    }
+
+                    // 更新 UI 狀態
+                    currentScoreDisplay.textContent = score;
+                    progressDisplay.textContent = `${answeredCount} / ${totalQuestions}`;
+                });
+            });
+        });
+
+        // --- 功能 2: 提交結算等級 ---
+        quizForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // 防止表單真正提交刷新頁面
+
+            if (answeredCount < totalQuestions) {
+                alert(`請先完成所有題目（目前 ${answeredCount}/${totalQuestions}），才能結算等級喔！`);
+                return;
+            }
+
+            // 隱藏題目和提交按鈕
+            quizForm.classList.add('hidden');
+            document.querySelector('.hero-intro').classList.add('hidden');
+
+            // 顯示結算畫面
+            resultCard.classList.remove('hidden');
+            scoreDisplay.innerHTML = `最終分數: <span>${score}</span> 分`;
+
+            // 計算等級評語
+            let level, icon;
+            if (score === 100) {
+                level = "【榮譽探險家】🎉 - 太厲害了！你對金門潮間帶瞭如指掌！";
+                icon = "fa-crown";
+            } else if (score >= 80) {
+                level = "【資深探險家】🦀 - 非常優秀！幾乎難不倒你。";
+                icon = "fa-user-check";
+            } else if (score >= 60) {
+                level = "【見習探險家】🐟 - 不錯喔！已具備基礎知識。";
+                icon = "fa-user-graduate";
+            } else {
+                level = "【新手探險家】🐣 - 加油！多看生物圖鑑再來挑戰！";
+                icon = "fa-baby";
+            }
+            
+            levelDisplay.textContent = level;
+            document.querySelector('.level-icon i').className = `fas ${icon}`;
+        });
+
+        // --- 功能 3: 重新開始 ---
+        restartBtn.addEventListener('click', () => {
+            // 重置變數
+            score = 0;
+            answeredCount = 0;
+            
+            // 重置 UI
+            currentScoreDisplay.textContent = score;
+            progressDisplay.textContent = `0 / ${totalQuestions}`;
+            quizForm.reset(); // 重置 Radio Button
+
+            // 移除所有答題樣式
+            questionCards.forEach(card => {
+                card.classList.remove('answered');
+                card.querySelectorAll('.option-label').forEach(opt => {
+                    opt.classList.remove('correct', 'wrong');
+                });
+            });
+
+            // 切換畫面
+            resultCard.classList.add('hidden');
+            quizForm.classList.remove('hidden');
+            document.querySelector('.hero-intro').classList.remove('hidden');
+        });
+    });
+  </script>
+</body>
+</html>

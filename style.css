@@ -1,0 +1,156 @@
+/* style.css - 整合美化版 */
+
+:root {
+    --primary-blue: #0077b6;
+    --dark-blue: #023e8a;
+    --accent-orange: #f4a261;
+    --bg-light: #f8fbff;
+    --white: #ffffff;
+    --shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+body {
+    margin: 0;
+    font-family: "Noto Sans TC", sans-serif;
+    background: linear-gradient(rgba(248, 251, 255, 0.9), rgba(248, 251, 255, 0.9)),
+                url('background_intertidal.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+}
+
+/* 導航列美化 */
+header {
+    background-color: var(--primary-blue);
+    color: white;
+    padding: 0 40px;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+}
+
+.header-title-container { display: flex; align-items: center; }
+.site-logo { height: 45px; margin-right: 15px; background: white; padding: 5px; border-radius: 8px; }
+header h1 { font-size: 1.4em; margin: 0; letter-spacing: 1px; }
+
+nav a { 
+    color: white; 
+    margin: 0 10px; 
+    text-decoration: none; 
+    font-weight: 500; 
+    transition: 0.3s;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+nav a:hover { background: rgba(255,255,255,0.15); }
+nav a.active { background: rgba(255,255,255,0.2); border-bottom: none; color: #caf0f8; font-weight: 700; }
+
+/* 主內容區卡片化 */
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.hero-intro h2 { color: var(--primary-blue); font-size: 2.2em; margin-bottom: 15px; }
+.hero-intro p { font-size: 1.1em; color: #555; max-width: 800px; margin: 0 auto; }
+
+/* 地圖與環景 (保留原本邏輯) */
+.map-section { margin-top: 30px; }
+.map-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.map-header h2 { font-size: 1.5em; color: var(--dark-blue); margin: 0; }
+
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: #e5e5e5;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+}
+
+#map {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 1;
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 關鍵：原本的地圖縮小樣式美化 */
+#map.minimized {
+    width: 280px;
+    height: 200px;
+    bottom: 20px;
+    right: 20px;
+    left: auto;
+    top: auto;
+    border: 5px solid white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+#pano-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; z-index: 999; }
+#pano-container.active { display: block; }
+#panViewer { width: 100%; height: 100%; }
+
+#location-info {
+    position: absolute; top: 20px; left: 20px;
+    background: rgba(2, 62, 138, 0.85); color: white;
+    padding: 12px 25px; border-radius: 50px;
+    font-weight: bold; display: none; z-index: 1001;
+    backdrop-filter: blur(5px);
+}
+#location-info.active { display: block; }
+
+#close-btn {
+    position: absolute; top: 20px; right: 20px;
+    background: #e63946; color: white; border: none;
+    padding: 12px 25px; border-radius: 50px; font-weight: bold;
+    cursor: pointer; display: none; z-index: 1001; transition: 0.3s;
+}
+#close-btn:hover { background: #d62828; transform: scale(1.05); }
+#close-btn.active { display: block; }
+
+.spot-card-info {
+    margin-top: 25px;
+    padding: 20px;
+    background: #eef7ff;
+    border-left: 5px solid var(--primary-blue);
+    border-radius: 8px;
+    text-align: left;
+}
+
+/* 語音彈窗美化 */
+.bio-detail {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 90%; max-width: 500px; background: white; padding: 40px;
+    border-radius: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    z-index: 3000; text-align: center; border: 4px solid var(--primary-blue);
+}
+.modal-img-container { width: 100%; height: 250px; overflow: hidden; border-radius: 15px; margin-bottom: 20px; }
+.modal-img-container img { width: 100%; height: 100%; object-fit: cover; }
+.voice-status { color: var(--primary-blue); font-weight: bold; margin-top: 15px; display: none; }
+.bio-detail:not(.hidden) .voice-status { display: block; }
+
+.overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2999; backdrop-filter: blur(3px); }
+.hidden { display: none !important; }
+
+footer { background: var(--dark-blue); color: white; padding: 30px 0; margin-top: 50px; }
+
+@media (max-width: 768px) {
+    header { height: auto; padding: 15px; flex-direction: column; }
+    nav { margin-top: 10px; display: flex; flex-wrap: wrap; justify-content: center; }
+    #map.minimized { width: 150px; height: 110px; }
+}

@@ -1,0 +1,128 @@
+/* intro-nav.css */
+
+/* 整個內容區的框架 */
+.content-frame {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    min-height: 600px;
+}
+
+/* 左側菜單欄 */
+.sidebar-nav {
+    width: 250px;
+    background-color: #e6f7ff; /* 淺藍色背景 */
+    border-right: 1px solid #b3e5fc;
+    padding-top: 20px;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    overflow: hidden;
+}
+
+/* 菜單項 */
+.menu-item {
+    cursor: pointer;
+    padding: 12px 20px;
+    font-weight: bold;
+    color: #0077b6;
+    border-bottom: 1px solid #c9e6ff;
+    transition: background-color 0.2s;
+    user-select: none; /* 防止文字被選取 */
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: inherit; /* 繼承父層顏色 */
+    display: block;
+}
+
+.menu-item:hover {
+    background-color: #b3e5fc;
+}
+
+/* 讓沒有子選單的連結在點擊後也保持活躍狀態 */
+.menu-item.active {
+    background-color: #0077b6;
+    color: white;
+}
+
+/* 內容展示區 */
+.content-display {
+    flex-grow: 1;
+    padding: 30px;
+    text-align: left;
+}
+
+.content-display h2 {
+    color: #0077b6;
+    border-bottom: 2px solid #b3e5fc;
+    padding-bottom: 10px;
+}
+
+/* 子選單 (下拉部分) */
+.sub-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #f0f8ff; /* 更淺的背景色 */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+/* 展開狀態 */
+.menu-item.open .sub-menu {
+    max-height: 300px; /* 設一個足夠大的高度 */
+}
+
+.sub-menu .sub-item {
+    padding: 8px 30px;
+    font-weight: normal;
+    border-bottom: 1px dotted #c9e6ff;
+    color: #333;
+    cursor: pointer;
+}
+
+.sub-menu .sub-item a {
+    display: block;
+}
+
+.sub-menu .sub-item:hover {
+    background-color: #e6f7ff;
+    color: #004466;
+}
+
+.sub-menu .sub-item.active {
+    background-color: #c9e6ff;
+}
+
+/* 媒體查詢：手機版佈局調整 */
+@media (max-width: 768px) {
+    .content-frame {
+        flex-direction: column;
+        margin: 20px auto;
+    }
+    .sidebar-nav {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #b3e5fc;
+        border-radius: 12px 12px 0 0;
+    }
+    .content-display {
+        padding: 20px 15px;
+    }
+    /* 手機上，預設收合子選單 */
+    .menu-item.collapsible {
+        border-bottom: none;
+    }
+    .sub-menu {
+        max-height: 0 !important;
+    }
+    /* 確保手機上點擊能展開 */
+    .menu-item.open .sub-menu {
+        max-height: 300px !important;
+    }
+}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生物圖鑑 | 金門潮間帶生態導覽</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* 針對生物圖鑑頁面的專屬美化樣式 */
+    .bio-main-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .bio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+        padding-bottom: 50px;
+    }
+
+    /* 超美化生物卡片 */
+    .card {
+        background: rgb(255, 255, 255);
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+        position: relative;
+        border: 1px solid rgba(0,0,0,0.03);
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 懸浮效果：放大、陰影加深、邊框變色 */
+    .card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 119, 182, 0.15);
+        border-color: rgba(0, 119, 182, 0.2);
+    }
+
+    /* 卡片圖片區域 */
+    .card-img-wrapper {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* 確保圖片填滿且不變形 */
+        transition: transform 0.5s ease;
+    }
+
+    /* 懸浮時圖片微微放大 */
+    .card:hover .card-img-wrapper img {
+        transform: scale(1.1);
+    }
+
+    /* 卡片內容區域 */
+    .card-content {
+        padding: 20px;
+        text-align: left;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card h3 {
+        font-size: 1.4em;
+        color: var(--dark-blue);
+        margin: 0 0 10px 0;
+        font-weight: 700;
+    }
+
+    .card-meta {
+        font-size: 0.9em;
+        color: var(--primary-blue);
+        background: #eef7ff;
+        padding: 5px 10px;
+        border-radius: 50px;
+        display: inline-block;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
+
+    .card p.click-hint {
+        font-size: 0.9em;
+        color: #777;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        border-top: 1px solid #eee;
+        padding-top: 15px;
+    }
+
+    .card p.click-hint i {
+        margin-right: 5px;
+        color: var(--accent-orange);
+    }
+
+    /* RWD 改進 */
+    @media (max-width: 600px) {
+        .bio-grid {
+            grid-template-columns: 1fr; /* 手機端單列顯示 */
+            gap: 20px;
+        }
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="header-title-container">
+        <img src="logo_nqu.png" alt="金門大學Logo" class="site-logo">
+        <h1>金門潮間帶生態導覽</h1>
+    </div>
+    <nav>
+      <a href="index.html"><i class="fas fa-home"></i> 首頁</a>
+      <a href="intro.html"><i class="fas fa-book-open"></i> 潮間帶介紹</a>
+      <a href="bio.html" class="active"><i class="fas fa-fish"></i> 生物圖鑑</a>
+      <a href="guide.html"><i class="fas fa-route"></i> 導覽流程</a>
+      <a href="game.html"><i class="fas fa-gamepad"></i> 探險遊戲</a>
+      <a href="conservation.html"><i class="fas fa-leaf"></i> 環境保育</a>
+      <a href="about.html"><i class="fas fa-users"></i> 關於我們</a>
+    </nav>
+  </header>
+
+  <main class="bio-main-container">
+    <section class="hero-intro" style="text-align: center; margin-top: 40px;">
+      <h2><i class="fas fa-microscope"></i> 金門潮間帶生物圖鑑</h2>
+      <p>歡迎來到豐富的生物資料庫。點擊下方美化的生物卡片，即可開啟詳細介紹與<span style="color:var(--primary-blue); font-weight:bold;">真人語音導覽</span>服務。</p>
+    </section>
+
+    <div class="bio-grid">
+      
+      <div class="card" data-title="寄居蟹" data-img="寄居蟹.jpg" data-description="利用貝殼作為保護殼，是潮間帶沙灘上常見的小型甲殼類。牠們會隨著成長尋找更大的貝殼。常出沒於沙灘與礫石區。">
+        <div class="card-img-wrapper">
+            <img src="寄居蟹.jpg" alt="寄居蟹">
+        </div>
+        <div class="card-content">
+            <div>
+                <span class="card-meta">甲殼類 | 沙灘</span>
+                <h3>寄居蟹</h3>
+            </div>
+            <p class="click-hint"><i class="fas fa-volume-up"></i> 點擊聽導覽 🔊</p>
+        </div>
+      </div>
+
+      <div class="card" data-title="石鱉" data-img="石鱉.jpg" data-description="附著在岩石表面，有八塊殼板，能緊貼岩面以防止被浪潮沖走，主要以刮食岩石上的藻類為生。吸附力極強。">
+        <div class="card-img-wrapper">
+            <img src="石鱉.jpg" alt="石鱉">
+        </div>
+        <div class="card-content">
+            <div>
+                <span class="card-meta">多板類 | 岩礁</span>
+                <h3>石鱉</h3>
+            </div>
+            <p class="click-hint"><i class="fas fa-volume-up"></i> 點擊聽導覽 🔊</p>
+        </div>
+      </div>
+
+      <div class="card" data-title="帽貝" data-img="帽貝.jpg" data-description="外形似帽子，屬於腹足綱，附著於潮間帶岩石上。在退潮時能緊閉殼口保留水分，具有規律的覓食路徑。">
+        <div class="card-img-wrapper">
+            <img src="帽貝.jpg" alt="帽貝">
+        </div>
+        <div class="card-content">
+            <div>
+                <span class="card-meta">腹足類 | 岩礁</span>
+                <h3>帽貝</h3>
+            </div>
+            <p class="click-hint"><i class="fas fa-volume-up"></i> 點擊聽導覽 🔊</p>
+        </div>
+      </div>
+
+      <div class="card" data-title="海藻" data-img="海藻.png" data-description="提供棲息地與食物來源，是潮間帶最重要的初級生產者。金門常見有綠藻（如石蓴）、紅藻與褐藻。">
+        <div class="card-img-wrapper">
+            <img src="海藻.png" alt="海藻">
+        </div>
+        <div class="card-content">
+            <div>
+                <span class="card-meta">藻類 | 全區</span>
+                <h3>海藻</h3>
+            </div>
+            <p class="click-hint"><i class="fas fa-volume-up"></i> 點擊聽導覽 🔊</p>
+        </div>
+      </div>
+
+      <div class="card" data-title="招潮蟹" data-img="招潮蟹.jpg" data-description="以揮舞大螯聞名，是潮間帶泥灘地的代表性生物之一。雄蟹的大螯用於求偶和威嚇對手。退潮時會集體出沒。">
+        <div class="card-img-wrapper">
+            <img src="招潮蟹.jpg" alt="招潮蟹">
+        </div>
+        <div class="card-content">
+            <div>
+                <span class="card-meta">甲殼類 | 泥灘</span>
+                <h3>招潮蟹</h3>
+            </div>
+            <p class="click-hint"><i class="fas fa-volume-up"></i> 點擊聽導覽 🔊</p>
+        </div>
+      </div>
+
+      <div class="card" data-title="彈塗魚" data-img="彈塗魚.jpg" data-description="能利用胸鰭在泥灘上跳躍或爬行，是一種半水生的魚類。皮膚具有輔助呼吸功能，眼球突出視力敏銳。">
+        <div class="card-img-wrapper">
+            <img src="彈塗魚.jpg" alt="彈塗魚">
+        </div>
+        <div class="card-content">
+            <div>
+                <span class="card-meta">魚類 | 泥灘</span>
+                <h3>彈塗魚</h3>
+            </div>
+            <p class="click-hint"><i class="fas fa-volume-up"></i> 點擊聽導覽 🔊</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content" style="text-align: center; color: white; padding: 20px;">
+        <p>© 2025 金門潮間帶生態導覽 | 製作：陳宏傑、李昱欣</p>
+        <p>國立金門大學 第三組 製作</p>
+    </div>
+  </footer>
+
+  <div id="bioOverlay" class="overlay hidden"></div>
+  <div id="bioDetail" class="bio-detail hidden">
+    <span id="closeDetail" class="close-btn" style="cursor:pointer; float:right; font-size:24px;">&times;</span>
+    <h3 id="bioTitle"></h3>
+    <div class="modal-img-container">
+        <img id="bioImg" src="" alt="生物圖片">
+    </div>
+    <p id="bioDesc"></p>
+    <div class="voice-status">
+        <span class="pulse-icon">🔊</span> 語音導覽播放中...
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

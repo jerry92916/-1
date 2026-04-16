@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>關於我們 | 金門潮間帶生態導覽</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* 關於我們頁面專屬樣式 */
+    .about-main {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    /* 願景區塊 */
+    .vision-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin: 40px 0;
+    }
+
+    .vision-item {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        text-align: center;
+        transition: 0.3s;
+    }
+
+    .vision-item:hover {
+        transform: translateY(-5px);
+    }
+
+    .vision-item i {
+        font-size: 2.5em;
+        color: var(--primary-blue);
+        margin-bottom: 20px;
+    }
+
+    /* 團隊名單卡片 */
+    .team-section {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: 30px;
+        margin-top: 50px;
+        box-shadow: var(--shadow);
+    }
+
+    .member-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .member-card {
+        background: #f0f8ff;
+        padding: 20px 40px;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        border: 1px solid #e1f0ff;
+    }
+
+    .member-card i {
+        font-size: 1.5em;
+        color: var(--dark-blue);
+    }
+
+    /* 致謝單位標籤 */
+    .source-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .tag {
+        background: var(--primary-blue);
+        color: white;
+        padding: 8px 20px;
+        border-radius: 50px;
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title-container">
+        <img src="logo_nqu.png" alt="金門大學Logo" class="site-logo">
+        <h1>金門潮間帶生態導覽</h1>
+    </div>
+    <nav>
+      <a href="index.html"><i class="fas fa-home"></i> 首頁</a>
+      <a href="intro.html"><i class="fas fa-book-open"></i> 潮間帶介紹</a>
+      <a href="bio.html"><i class="fas fa-fish"></i> 生物圖鑑</a>
+      <a href="guide.html"><i class="fas fa-route"></i> 導覽流程</a>
+      <a href="game.html"><i class="fas fa-gamepad"></i> 探險遊戲</a>
+      <a href="conservation.html"><i class="fas fa-leaf"></i> 環境保育</a>
+      <a href="about.html" class="active"><i class="fas fa-users"></i> 關於我們</a>
+    </nav>
+  </header>
+
+  <main class="about-main">
+    <section class="hero-intro" style="text-align: center;">
+      <h2>👋 認識我們的團隊</h2>
+      <p>本網站由學生團隊用心打造，我們致力於讓更多人看見金門潮間帶的美麗與哀愁。</p>
+    </section>
+
+    <!-- 使命願景 -->
+    <div class="vision-grid">
+      <div class="vision-item">
+        <i class="fas fa-lightbulb"></i>
+        <h3>知識傳遞</h3>
+        <p>透過互動式數位工具，將艱澀的生態知識轉化為有趣的探索體驗。</p>
+      </div>
+      <div class="vision-item">
+        <i class="fas fa-seedling"></i>
+        <h3>保育意識</h3>
+        <p>喚起公眾對金門海岸線的保育熱忱，守護生物棲息地的完整性。</p>
+      </div>
+      <div class="vision-item">
+        <i class="fas fa-laptop-code"></i>
+        <h3>數位創新</h3>
+        <p>利用網頁技術結合 VR 環景，打破地理限制，隨時隨地導覽潮間帶。</p>
+      </div>
+    </div>
+
+    <!-- 製作名單區塊 -->
+    <section class="team-section">
+      <h2 style="text-align: center; color: var(--dark-blue);"><i class="fas fa-feather-alt"></i> 專案製作名單</h2>
+      
+      <div class="member-list">
+        <div class="member-card">
+          <i class="fas fa-chalkboard-teacher"></i>
+          <div>
+            <span style="display:block; font-size: 0.8em; color: #666;">指導老師</span>
+            <strong>趙于翔 老師</strong>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <i class="fas fa-user-graduate"></i>
+          <div>
+            <span style="display:block; font-size: 0.8em; color: #666;">技術開發與設計</span>
+            <strong>國立金門大學 第三組</strong>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 50px; text-align: center;">
+        <h3 style="font-size: 1.1em; color: #555;"><i class="fas fa-database"></i> 資料來源與致謝</h3>
+        <div class="source-tags">
+          <span class="tag">金門縣政府環保局</span>
+          <span class="tag">教育部生態教育網</span>
+          <span class="tag">金門國家公園管理處</span>
+          <span class="tag">國立金門大學</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-content" style="text-align: center; color: white; padding: 20px;">
+        <p>© 2025 金門潮間帶生態導覽 | 製作：陳宏傑、李昱欣</p>
+        <p>國立金門大學 第三組 製作</p>
+    </div>
+  </footer>
+
+  <!-- 保持 script.js 運作 -->
+  <div id="bioDetail" class="bio-detail hidden">
+    <span id="closeDetail" class="close-btn">&times;</span>
+    <h3 id="bioTitle"></h3>
+    <img id="bioImg" src="" alt="">
+    <p id="bioDesc"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

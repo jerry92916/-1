@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>潮間帶介紹 | 金門潮間帶生態導覽</title>
+  
+  <!-- 引入與首頁一致的現代字體與圖示[cite: 3] -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- 引入美化版 CSS[cite: 2] -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="intro-nav.css">
+  
+  <style>
+    /* 針對介紹頁面的佈局微調 */
+    .intro-main-container {
+        display: flex;
+        max-width: 1200px;
+        margin: 30px auto;
+        gap: 20px;
+        padding: 0 20px;
+    }
+
+    .content-display {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        overflow: hidden;
+        height: 700px;
+    }
+
+    iframe#contentFrame {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+    /* 側邊欄與首頁風格式樣整合[cite: 2, 4] */
+    .sidebar-nav {
+        width: 280px;
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        height: fit-content;
+    }
+
+    .menu-item {
+        padding: 12px 15px;
+        margin-bottom: 8px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: 0.3s;
+        color: var(--dark-blue);
+    }
+
+    .menu-item:hover { background: #eef7ff; }
+    .menu-item.active { background: var(--primary-blue); color: white; }
+    
+    .sub-menu { list-style: none; padding-left: 20px; margin-top: 10px; display: none; }
+    .collapsible.open .sub-menu { display: block; }
+    
+    .sub-item a { 
+        text-decoration: none; 
+        color: #555; 
+        display: block; 
+        padding: 8px 0;
+        font-size: 0.95em;
+    }
+    .sub-item.active a { color: var(--primary-blue); font-weight: 700; }
+  </style>
+</head>
+<body>
+  <!-- 頂部導航列 (與 index 相同)[cite: 3] -->
+  <header>
+    <div class="header-title-container">
+        <img src="logo_nqu.png" alt="金門大學Logo" class="site-logo">
+        <h1>金門潮間帶生態導覽</h1>
+    </div>
+    <nav>
+      <a href="index.html"><i class="fas fa-home"></i> 首頁</a>
+      <a href="intro.html" class="active"><i class="fas fa-book-open"></i> 潮間帶介紹</a>
+      <a href="bio.html"><i class="fas fa-fish"></i> 生物圖鑑</a>
+      <a href="guide.html"><i class="fas fa-route"></i> 導覽流程</a>
+      <a href="game.html"><i class="fas fa-gamepad"></i> 探險遊戲</a>
+      <a href="conservation.html"><i class="fas fa-leaf"></i> 環境保育</a>
+      <a href="about.html"><i class="fas fa-users"></i> 關於我們</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-intro" style="margin-top: 40px; text-align: center;">
+      <h2><i class="fas fa-info-circle"></i> 深度了解金門潮間帶</h2>
+      <p>透過左側選單，探索不同類型的地形地質與生物景觀。</p>
+    </section>
+
+    <div class="intro-main-container">
+      <!-- 側邊欄選單 -->
+      <aside class="sidebar-nav">
+        <div class="menu-item intro-link active">
+          <a href="intro-overview.html" target="contentFrame" style="text-decoration: none; color: inherit;">
+            <i class="fas fa-globe-asia"></i> 環境簡介
+          </a>
+        </div>
+        
+        <div class="menu-item collapsible open">
+          <i class="fas fa-star"></i> 特性
+          <ul class="sub-menu">
+            <li class="sub-item active"><a href="intro-feature.html" target="contentFrame">特性總覽</a></li>
+            <li class="sub-item"><a href="intro-geology-type.html" target="contentFrame">地形地貌</a></li>
+            <li class="sub-item"><a href="intro-tide.html" target="contentFrame">潮汐變化</a></li>
+          </ul>
+        </div>
+
+        <div class="menu-item collapsible">
+          <i class="fas fa-mountain"></i> 地質
+          <ul class="sub-menu">
+            <li class="sub-item"><a href="intro-geology-structure.html" target="contentFrame">地質結構</a></li>
+            <li class="sub-item"><a href="intro-geology-rock.html" target="contentFrame">岩石特色</a></li>
+          </ul>
+        </div>
+
+        <div class="menu-item collapsible">
+          <i class="fas fa-camera-retro"></i> 自然風景
+          <ul class="sub-menu">
+            <li class="sub-item"><a href="intro-scenery-tide.html" target="contentFrame">潮汐美景</a></li>
+            <li class="sub-item"><a href="intro-scenery-sun.html" target="contentFrame">日落景觀</a></li>
+          </ul>
+        </div>
+
+        <div class="menu-item collapsible">
+          <i class="fas fa-bug"></i> 常見生物
+          <ul class="sub-menu">
+            <li class="sub-item"><a href="intro-bio-crab.html" target="contentFrame">蟹類與魚類</a></li>
+            <li class="sub-item"><a href="intro-bio-mollusk.html" target="contentFrame">螺貝與附著生物</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- 內容顯示區[cite: 4] -->
+      <section class="content-display">
+        <iframe id="contentFrame" name="contentFrame" src="intro-overview.html"></iframe>
+      </section>
+    </div>
+  </main>
+
+  <!-- 生物詳情彈窗系統 (保留以支援 script.js 功能)[cite: 3] -->
+  <div id="bioOverlay" class="overlay hidden"></div>
+  <div id="bioDetail" class="bio-detail hidden">
+    <span id="closeDetail" class="close-btn" style="cursor:pointer; float:right; font-size:24px;">&times;</span>
+    <h3 id="bioTitle"></h3>
+    <div class="modal-img-container">
+        <img id="bioImg" src="" alt="" style="max-width:100%; border-radius:15px;">
+    </div>
+    <p id="bioDesc"></p>
+    <div class="voice-status">
+        <span class="pulse-icon">🔊</span> 語音導覽播放中...
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content" style="text-align: center; color: white; padding: 20px;">
+        <p>© 2025 金門潮間帶生態導覽 | 製作：陳宏傑、李昱欣</p>
+        <p>國立金門大學 第三組 製作</p>
+    </div>
+  </footer>
+
+  <script>
+    // 側邊欄專用邏輯
+    document.addEventListener('DOMContentLoaded', () => {
+      const collapsibleItems = document.querySelectorAll('.collapsible');
+      const allSubItems = document.querySelectorAll('.sub-item');
+      const introLink = document.querySelector('.intro-link');
+
+      // 處理開合
+      collapsibleItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+          if (e.target.tagName !== 'A') {
+            item.classList.toggle('open');
+          }
+        });
+      });
+
+      // 處理 Active 狀態切換
+      const clearActive = () => {
+        allSubItems.forEach(i => i.classList.remove('active'));
+        introLink.classList.remove('active');
+      };
+
+      allSubItems.forEach(item => {
+        item.addEventListener('click', () => {
+          clearActive();
+          item.classList.add('active');
+        });
+      });
+
+      introLink.addEventListener('click', () => {
+        clearActive();
+        introLink.classList.add('active');
+      });
+    });
+  </script>
+  <!-- 引入整合腳本 -->
+  <script src="script.js"></script>
+</body>
+</html>

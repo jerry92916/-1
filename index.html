@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>金門潮間帶生態導覽 | 互動探索平臺</title>
+  
+  <!-- 引入現代字體與圖示 -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- 地圖與環景插件 -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-title-container">
+        <img src="logo_nqu.png" alt="金門大學Logo" class="site-logo">
+        <h1>金門潮間帶生態導覽</h1>
+    </div>
+    <nav>
+      <a href="index.html" class="active"><i class="fas fa-home"></i> 首頁</a>
+      <a href="intro.html"><i class="fas fa-book-open"></i> 潮間帶介紹</a>
+      <a href="bio.html"><i class="fas fa-fish"></i> 生物圖鑑</a>
+      <a href="guide.html"><i class="fas fa-route"></i> 導覽流程</a>
+      <a href="game.html"><i class="fas fa-gamepad"></i> 探險遊戲</a>
+      <a href="conservation.html"><i class="fas fa-leaf"></i> 環境保育</a>
+      <a href="about.html"><i class="fas fa-users"></i> 關於我們</a>
+    </nav>
+  </header>
+
+  <main class="homepage-main">
+    <section class="intro hero-intro">
+      <h2>🌊 探索金門：海洋與陸地的邊際</h2>
+      <p>
+        金門擁有豐富多樣的潮間帶生態系。透過互動地圖，開啟您的探索之旅。
+      </p>
+    </section>
+
+    <div id="interactive-map-container" class="map-section">
+      <div class="map-header">
+        <h2><i class="fas fa-map-marked-alt"></i> 互動地圖 (點擊標記切換 360° 照片)</h2>
+        <div id="location-selector" class="dropdown">
+          <label for="location-select">切換景點：</label>
+          <select id="location-select">
+            <option value="">-- 請選擇探索景點 --</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="map-wrapper">
+        <div id="map"></div>
+        <div id="pano-container">
+          <div id="panViewer"></div>
+        </div>
+        <div id="location-info"></div>
+        <button id="close-btn"><i class="fas fa-times"></i> 關閉環景</button>
+      </div>
+    </div>
+
+    <div id="spot-info" class="spot-card-info" style="display:none;"></div>
+  </main>
+
+  <footer>
+    <div class="footer-content" style="text-align: center; color: white; padding: 20px;">
+        <p>© 2025 金門潮間帶生態導覽 | 製作：陳宏傑、李昱欣</p>
+        <p>國立金門大學 第三組 製作</p>
+    </div>
+  </footer>
+  
+  <div id="bioOverlay" class="overlay hidden"></div>
+  <div id="bioDetail" class="bio-detail hidden">
+    <span id="closeDetail" class="close-btn">&times;</span>
+    <h3 id="bioTitle"></h3>
+    <div class="modal-img-container">
+        <img id="bioImg" src="" alt="">
+    </div>
+    <p id="bioDesc"></p>
+    <div class="voice-status">
+        <span class="pulse-icon">🔊</span> 語音導覽播放中...
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>導覽流程 | 金門潮間帶生態導覽</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+  
+  <style>
+    /* 針對導覽流程頁面的專屬美化與新功能樣式 */
+    .guide-main-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    /* 步驟卡片區域 */
+    .guide-steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin: 50px 0;
+    }
+
+    .step-card {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: 1px solid rgba(0,0,0,0.03);
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* 懸浮效果 */
+    .step-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 119, 182, 0.15);
+        border-color: rgba(0, 119, 182, 0.2);
+    }
+
+    /* 步驟數字圖示 */
+    .step-icon {
+        font-size: 2.5em;
+        color: var(--primary-blue);
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .step-card h3 {
+        color: var(--dark-blue);
+        font-size: 1.4em;
+        margin: 0 0 15px 0;
+        font-weight: 700;
+    }
+
+    .step-card p {
+        color: #666;
+        font-size: 1em;
+        line-height: 1.6;
+        margin: 0;
+        text-align: justify;
+    }
+
+    /* 新增功能：行前檢查清單樣式 */
+    .checklist-section {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+        margin-top: 60px;
+        text-align: left;
+    }
+
+    .checklist-section h3 {
+        color: var(--dark-blue);
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .checklist-item {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: #f0f8ff;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+        border: 2px solid transparent;
+    }
+
+    .checklist-item:hover {
+        background: #e1f0ff;
+    }
+
+    /* 隱藏原生 checkbox，使用自定義樣式 */
+    .checklist-item input[type="checkbox"] {
+        display: none;
+    }
+
+    .custom-check {
+        width: 25px;
+        height: 25px;
+        border: 2px solid var(--primary-blue);
+        border-radius: 5px;
+        margin-right: 15px;
+        position: relative;
+        background: white;
+    }
+
+    /* 勾選後的樣式變化 */
+    .checklist-item input[type="checkbox"]:checked + .custom-check {
+        background-color: var(--primary-blue);
+        border-color: var(--primary-blue);
+    }
+
+    .checklist-item input[type="checkbox"]:checked + .custom-check::after {
+        content: '\2714'; /* Unicode 勾號 */
+        font-size: 18px;
+        color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .checklist-item span {
+        font-size: 1.1em;
+        color: #333;
+        transition: 0.3s;
+    }
+
+    .checklist-item input[type="checkbox"]:checked ~ span {
+        text-decoration: line-through;
+        color: #888;
+    }
+    
+    .checklist-final-msg {
+        text-align: center;
+        color: var(--primary-blue);
+        font-weight: bold;
+        margin-top: 20px;
+        display: none; /* 預設隱藏 */
+    }
+  </style>
+</head>
+<body>
+  
+  <header>
+    <div class="header-title-container">
+        <img src="logo_nqu.png" alt="金門大學Logo" class="site-logo">
+        <h1>金門潮間帶生態導覽</h1>
+    </div>
+    <nav>
+      <a href="index.html"><i class="fas fa-home"></i> 首頁</a>
+      <a href="intro.html"><i class="fas fa-book-open"></i> 潮間帶介紹</a>
+      <a href="bio.html"><i class="fas fa-fish"></i> 生物圖鑑</a>
+      <a href="guide.html" class="active"><i class="fas fa-route"></i> 導覽流程</a>
+      <a href="game.html"><i class="fas fa-gamepad"></i> 探險遊戲</a>
+      <a href="conservation.html"><i class="fas fa-leaf"></i> 環境保育</a>
+      <a href="about.html"><i class="fas fa-users"></i> 關於我們</a>
+    </nav>
+  </header>
+
+  <main class="guide-main-container">
+    <section class="hero-intro" style="text-align: center; margin-top: 40px;">
+      <h2><i class="fas fa-map-signs"></i> 金門潮間帶導覽流程</h2>
+      <p>
+        在前往這片神祕的潮間帶探險前，請務必遵循以下標準作業步驟。<br>
+        確保您的旅程既<span style="color:#e63946; font-weight:bold;">安全</span>，又富有<span style="color:var(--primary-blue); font-weight:bold;">教育意義</span>！
+      </p>
+    </section>
+    
+    <div class="guide-steps">
+      
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-hourglass-half"></i></div>
+        <h3>1. ⏰ 精準查詢潮汐</h3>
+        <p>確認當日「退潮」的準確時段。規劃在退潮前後1.5小時內觀察，並隨時注意漲潮時間，預留撤退時間以避免發生危險。</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-search-location"></i></div>
+        <h3>2. 📍 智慧選擇地點</h3>
+        <p>金門各地潮間帶地形不同。岩礁區（如翟山）適合看藤壺，泥灘地（如建功嶼）適合招潮蟹。請參考首頁地圖選擇目標。</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-toolbox"></i></div>
+        <h3>3. 🎒 專業裝備準備</h3>
+        <p>必備：防滑鞋（或舊布鞋）、遮陽帽。建議攜帶：觀察記錄本、放大鏡、防水相機。嚴禁攜帶：捕撈網或塑膠袋（不帶走生物）。</p>
+      </div>
+
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-shoe-prints"></i></div>
+        <h3>4. 👣 輕腳慢行守則</h3>
+        <p>在潮間帶請「輕踩、慢移」。這不僅是為了您的安全（防止滑倒），更是為了避免無意中驚擾或踩踏、傷害到細小的生物。</p>
+      </div>
+
+    </div>
+
+    <section class="checklist-section">
+        <h3><i class="fas fa-check-circle"></i> 行前準備確認清單 (互動勾選)</h3>
+        <p style="text-align:center; color:#777; margin-bottom:20px;">出發前，請幫自己勾選確認已完成以下準備：</p>
+        
+        <label class="checklist-item">
+            <input type="checkbox" class="guide-check">
+            <div class="custom-check"></div>
+            <span>我已查詢當日潮汐，確認在安全時段內。</span>
+        </label>
+
+        <label class="checklist-item">
+            <input type="checkbox" class="guide-check">
+            <div class="custom-check"></div>
+            <span>我已準備妥當包覆性佳的防滑鞋及遮陽裝備。</span>
+        </label>
+
+        <label class="checklist-item">
+            <input type="checkbox" class="guide-check">
+            <div class="custom-check"></div>
+            <span>我承諾「只用眼睛觀察，不帶走任何生物或石頭」。</span>
+        </label>
+
+        <label class="checklist-item">
+            <input type="checkbox" class="guide-check">
+            <div class="custom-check"></div>
+            <span>我已將行程告知家人或朋友。</span>
+        </label>
+
+        <div id="finalMsg" class="checklist-final-msg">
+            <i class="fas fa-thumbs-up"></i> 太棒了！您已做好充分準備，祝您有個愉快的潮間帶探索之旅！
+        </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-content" style="text-align: center; color: white; padding: 20px;">
+        <p>© 2025 金門潮間帶生態導覽 | 製作：陳宏傑、李昱欣</p>
+        <p>國立金門大學 第三組 製作</p>
+    </div>
+  </footer>
+
+  <div id="bioDetail" class="bio-detail hidden">
+    <span id="closeDetail" class="close-btn">&times;</span>
+    <h3 id="bioTitle"></h3>
+    <img id="bioImg" src="" alt="">
+    <p id="bioDesc"></p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const checkboxes = document.querySelectorAll('.guide-check');
+        const finalMsg = document.getElementById('finalMsg');
+
+        function checkAll() {
+            // 檢查是否所有 checkbox 都被勾選
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            if (allChecked) {
+                finalMsg.style.display = 'block'; // 顯示祝賀訊息
+                // 可以加入小動畫
+                finalMsg.style.animation = 'fadeIn 0.5s';
+            } else {
+                finalMsg.style.display = 'none';
+            }
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', checkAll);
+        });
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
