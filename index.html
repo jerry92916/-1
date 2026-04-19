@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>金門潮間帶生態導覽 | 互動探索平臺</title>
   
-  <!-- 引入現代字體與圖示 -->
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
   <link rel="stylesheet" href="style.css">
   
-  <!-- 地圖與環景插件 -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   
@@ -64,7 +62,10 @@
       </div>
     </div>
 
-    <div id="spot-info" class="spot-card-info" style="display:none;"></div>
+    <div id="spot-info" class="spot-card-info" style="text-align: center; margin-top: 20px;">
+      <button class="vr-btn" onclick="enterVRScene(1)">進入 雄獅堡 VR 導覽</button>
+      <button class="vr-btn" onclick="enterVRScene(2)">進入 莒光樓 VR 導覽</button>
+    </div>
   </main>
 
   <footer>
@@ -88,5 +89,19 @@
   </div>
 
   <script src="script.js"></script>
+
+  <script type="text/javascript">
+    function enterVRScene(sceneIndex) {
+      // 檢查是否在 Unity WebView 環境中
+      if (window.Unity !== undefined) {
+        // 發送指令給 Unity，例如 "map:1"
+        window.Unity.call("map:" + sceneIndex);
+      } else {
+        // 如果是用一般瀏覽器打開，則在控制台提示
+        console.log("目前不是在 App 內，無法啟動 VR。目標場景編號：" + sceneIndex);
+        alert("VR 導覽功能僅限於專屬 App 內使用。");
+      }
+    }
+  </script>
 </body>
 </html>
