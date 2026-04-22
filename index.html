@@ -37,13 +37,13 @@
     <section class="intro hero-intro">
       <h2>🌊 探索金門：海洋與陸地的邊際</h2>
       <p>
-        金門擁有豐富多樣的潮間帶生態系。透過互動地圖，開啟您的探索之旅。
+        金門擁有豐富多樣的潮間帶生態系。透過互動地圖，開啟您的 VR 探索之旅。
       </p>
     </section>
 
     <div id="interactive-map-container" class="map-section">
       <div class="map-header">
-        <h2><i class="fas fa-map-marked-alt"></i> 互動地圖 (點擊標記切換 360° 照片)</h2>
+        <h2><i class="fas fa-map-marked-alt"></i> 互動地圖 (點擊標記啟動 VR 導覽)</h2>
         <div id="location-selector" class="dropdown">
           <label for="location-select">切換景點：</label>
           <select id="location-select">
@@ -62,10 +62,7 @@
       </div>
     </div>
 
-    <div id="spot-info" class="spot-card-info" style="text-align: center; margin-top: 20px;">
-      <button class="vr-btn" onclick="enterVRScene(1)">進入 雄獅堡 VR 導覽</button>
-      <button class="vr-btn" onclick="enterVRScene(2)">進入 莒光樓 VR 導覽</button>
-    </div>
+    <div id="spot-info" class="spot-card-info" style="display:none;"></div>
   </main>
 
   <footer>
@@ -88,20 +85,38 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
-
   <script type="text/javascript">
+    /**
+     * 進入 VR 場景的主控函式
+     * @param {number|string} sceneIndex - 景點編號
+     */
     function enterVRScene(sceneIndex) {
-      // 檢查是否在 Unity WebView 環境中
-      if (window.Unity !== undefined) {
-        // 發送指令給 Unity，例如 "map:1"
+      // 1. 優先嘗試通訊給 Unity (手機 App WebView 環境)
+      if (typeof window.Unity !== 'undefined') {
+        console.log("偵測到 App 環境，傳送場景索引至 Unity: " + sceneIndex);
         window.Unity.call("map:" + sceneIndex);
-      } else {
-        // 如果是用一般瀏覽器打開，則在控制台提示
-        console.log("目前不是在 App 內，無法啟動 VR。目標場景編號：" + sceneIndex);
-        alert("VR 導覽功能僅限於專屬 App 內使用。");
+      } 
+      // 2. 如果是 WebGL 版本 (直接在網頁跑 Unity)
+      else if (typeof unityInstance !== 'undefined') {
+        console.log("偵測到 WebGL 實例，切換場景...");
+        // 假設 Unity 內部有個接收器叫 SceneManager，方法叫 ChangeScene
+        unityInstance.SendMessage('SceneManager', 'ChangeScene', sceneIndex);
+      }
+      // 3. 備援方案：執行原本網頁 script.js 的 Pannellum 環景邏輯
+      else {
+        console.log("目前為一般網頁環境，執行預設環景。");
+        // 觸發自定義事件讓 script.js 知道要開啟環景
+        const event = new CustomEvent('openPano', { detail: { id: sceneIndex } });
+        window.dispatchEvent(event);
       }
     }
+
+    // 監聽來自 script.js 的地圖點擊，確保兩邊同步
+    window.addEventListener('mapMarkerClicked', function(e) {
+      enterVRScene(e.detail.id);
+    });
   </script>
+
+  <script src="script.js"></script>
 </body>
 </html>
