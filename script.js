@@ -76,11 +76,21 @@ function initApp() {
         }).openTooltip();
         
         // --- B. 建立氣泡窗內容（Popup） ---
+        // 判斷按鈕要顯示哪一種 (如果是雄獅堡，就呼叫 Unity VR 腳本)
+        let btnHTML = '無環景照片';
+        if (s.panorama) {
+            if (id === "雄獅堡") {
+                btnHTML = `<button onclick="enterVRScene(1)" style="background:#0077b6; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;"><i class="fas fa-vr-cardboard"></i> 進入 雄獅堡 VR 導覽</button>`;
+            } else {
+                btnHTML = `<button onclick="enterPanoramaUI('${id}')" style="background:#0077b6; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;"><i class="fas fa-vr-cardboard"></i> 進入環景</button>`;
+            }
+        }
+
         const popupContent = `
             <div class="custom-popup" style="text-align:center;">
                 <h3 style="margin: 0 0 5px 0; color:#0077b6;">${s.title}</h3>
                 <p style="margin: 0 0 10px 0; font-size:13px; line-height:1.4;">${s.text}</p>
-                ${s.panorama ? `<button onclick="enterPanoramaUI('${id}')" style="background:#0077b6; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;"><i class="fas fa-vr-cardboard"></i> 進入環景</button>` : '無環景照片'}
+                ${btnHTML}
             </div>
         `;
         m.bindPopup(popupContent, { minWidth: 200 }); // 綁定 Popup
@@ -170,12 +180,9 @@ window.enterPanoramaUI = function(id) {
 
     setTimeout(() => {
         map.invalidateSize();
-        // 載入對應場景 (雄獅堡會載入 3-6.jpg)
+        // 載入對應場景
         viewer.loadScene(id);
     }, 300);
-
-    // 可選：更新資訊欄位
-    // updateSpotInfo(id);
 }
 
 // 關閉環景回到地圖
@@ -193,15 +200,6 @@ function closePanorama() {
         map.flyTo([24.44, 118.32], 13);
     }, 500);
 }
-
-// 可選：更新資訊欄位 (這裡我先註解掉，以免跟環景內的標題重疊，你可以依需求開啟)
-// function updateSpotInfo(id) {
-//     const infoBox = document.getElementById("spot-info");
-//     if (infoBox && scenes[id]) {
-//         infoBox.style.display = "block";
-//         infoBox.innerHTML = `<h3><i class="fas fa-info-circle"></i> ${scenes[id].title}</h3><p>${scenes[id].text}</p>`;
-//     }
-// }
 
 function initBioInteraction() {
     // 這裡保留你原本生物圖鑑的互動代碼
